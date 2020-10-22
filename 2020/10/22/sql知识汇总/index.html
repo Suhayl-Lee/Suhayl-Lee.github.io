@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title></title>
+    <title>sql知识汇总</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -31,19 +31,19 @@
     <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-subtitle"></h1>
+                <h1 class="header-subtitle">sql知识汇总</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
-                            <i class="iconfont icon-time"></i> 发表时间：2020-10-20
+                            <i class="iconfont icon-time"></i> 发表时间：2020-10-22
                         </span>
                         
-                            <span id="/2020/10/20/概率统计知识/" class="leancloud_visitors" data-flag-title="">
+                            <span id="/2020/10/22/sql知识汇总/" class="leancloud_visitors" data-flag-title="sql知识汇总">
                                 <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                             </span>
                         
                         <span>
-                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/10/20/概率统计知识/"></span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/10/22/sql知识汇总/"></span>
                         </span>  
                     </p>                 
                 </div>
@@ -57,14 +57,7 @@
         <div id="article">
     <div class="toc"></div>
     <div class="article-body">
-        <p>title: 概率统计知识<br>data: 2020/10/22 11:44<br>tags: 概率统计</p>
-<h1 id="概率统计知识"><a href="#概率统计知识" class="headerlink" title="概率统计知识"></a>概率统计知识</h1><h2 id="相关性和相关系数"><a href="#相关性和相关系数" class="headerlink" title="相关性和相关系数"></a>相关性和相关系数</h2><p>相关性：就是描述两种事务或者特征的联系，一种事务的变化是否会引起另外一种事务的变化。<br>包括正相关和负相关，正相关表示一种增加的趋势是一样的，一种增长，另外一种也会随之增长<br>负相关：表示增加的趋势是相反的，一种增长，另外一种反而会下降<br>例子：<br>身高和体重，身高和体重是正相关的，身高越高的人通常体重就越重<br>相关系数：相关系数用来描述具体两个事务或者或者特征相关系数大小的。<br>相关系数计算：<br><a href="https://www.codecogs.com/eqnedit.php?latex=\bg_white&space;\huge&space;r=\frac{1}{n}\sum_{i}^{n}((xi-\bar{x})/\sigma&plus;(yi-\bar{y})/\sigma&space;)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\huge&space;r=\frac{1}{n}\sum_{i}^{n}((xi-\bar{x})/\sigma&plus;(yi-\bar{y})/\sigma&space;)" title="\huge r=\frac{1}{n}\sum_{i}^{n}((xi-\bar{x})/\sigma+(yi-\bar{y})/\sigma )" /></a><br>其中 r 为相关系数xi为每个x的值<a href="https://www.codecogs.com/eqnedit.php?latex=\bg_white&space;\huge&space;\bar{x}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\huge&space;\bar{x}" title="\huge \bar{x}" /></a>为平均值<br><a href="https://www.codecogs.com/eqnedit.php?latex=\bg_white&space;\huge&space;\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\huge&space;\sigma" title="\huge \sigma" /></a>为标准差</p>
-<h2 id="常见的概率分布"><a href="#常见的概率分布" class="headerlink" title="常见的概率分布"></a>常见的概率分布</h2><h3 id="1-古典概型和几何概型"><a href="#1-古典概型和几何概型" class="headerlink" title="1. 古典概型和几何概型"></a>1. 古典概型和几何概型</h3><p><strong>古典概型</strong><br>适用于随机事件E的样本空间只有有限个样本点，而几何概型适用于样本空间是某一可度量的集合区域<br>古典概型：n个样本点每个样本点出现的概率是相等的，并且每次实验有且仅有一个样本点发生，如果事件A包含m个样本点，那么对应概率P(A) = m/n<br><strong>几何概型</strong><br>当随机实验E的样本空间是某一可度量的几何区域，并且在任意一点的度量（长度，面积，和体积）相同的子区域内是等概率的那么事件A的概率为P(A) = Sa/S</p>
-<h3 id="2-条件概率"><a href="#2-条件概率" class="headerlink" title="2. 条件概率"></a>2. 条件概率</h3><p>在某个事件已经发生的条件下另一事件发生的概率<br>设A和B是两个独立的事件，而且P(B) &gt; 0<br>则P（A|B） = P(AB)/P(B)</p>
-<h3 id="3-三条重要的公式"><a href="#3-三条重要的公式" class="headerlink" title="3. 三条重要的公式"></a>3. 三条重要的公式</h3><ol>
-<li>乘法公式<br> P(AB) = P(A|B)P(B) = P(B|A)P(A)<br>2 .  全概率公式<h3 id="4-n重伯努利实验"><a href="#4-n重伯努利实验" class="headerlink" title="4. n重伯努利实验"></a>4. n重伯努利实验</h3>如果一个随机试验只有两种可能的结果A和B并且P(A) = p P（B） = 1-p =q<br>那么这个试验就是伯努利实验，如果该实验独立重复n次就是n重伯努利试验，设Ak为A出现k的概率<br>那么P(Ak) = <a href="https://www.codecogs.com/eqnedit.php?latex=\huge&space;C_{n}^{k}\textrm{p}^{k}(1-p)^{n-k}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\huge&space;C_{n}^{k}\textrm{p}^{k}(1-p)^{n-k}" title="\huge C_{n}^{k}\textrm{p}^{k}(1-p)^{n-k}" /></a><h2 id="常见的分布函数"><a href="#常见的分布函数" class="headerlink" title="常见的分布函数"></a>常见的分布函数</h2><h3 id="1-随机变量的分布函数"><a href="#1-随机变量的分布函数" class="headerlink" title="1. 随机变量的分布函数"></a>1. 随机变量的分布函数</h3>X为随机变量则对任意的实数X该随机变量的分布函数表示为：F(x) = P{X&lt;x}</li>
-</ol>
-
+        
         <p class="suffix-end">__END__</p>
         <div class="suffix-box">
             <div class="suffix-box-left">
@@ -73,7 +66,7 @@
             <div class="suffix-box-right">
                 <span class="suffix-box-title">文章作者</span>：Suhayl
                 <br>
-                <span class="suffix-box-title">文章出处</span>：<a href="/2020/10/20/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1%E7%9F%A5%E8%AF%86/" target="_blank"></a>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2020/10/22/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" target="_blank">sql知识汇总</a>
                 <br>
                 <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
                 <br>
@@ -91,7 +84,7 @@
         <div class="article-prev-next">
             
             
-                <a href="/2020/10/14/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" class="next-prefix">» </a> 下一篇：    <a href="/2020/10/14/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" title="发布于 2020-10-14 11:53"></a>
+                <a href="/2020/09/22/MarkDown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="next-prefix">» </a> 下一篇：    <a href="/2020/09/22/MarkDown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="发布于 2020-09-22 11:29">MarkDown基本语法</a>
             
         </div>
     </div>
@@ -371,12 +364,12 @@
             
                 {
                     icon : 'icon-wechat', 
-                    url  : ''
+                    url  : 'https://gitee.com/Suhayl/pics-bed/raw/master/img/wechat.jpg'
                 },
             
                 {
                     icon : 'icon-qq', 
-                    url  : ''
+                    url  : 'https://gitee.com/Suhayl/pics-bed/raw/master/img/QQ.jpg'
                 },
             
                 {
