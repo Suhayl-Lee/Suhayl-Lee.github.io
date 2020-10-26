@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title></title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <a id="cover"></a>
+    <div id="header">
+    <div class="header">
+        <div class="vertical">
+            <div class="inner">
+                <h1 class="header-subtitle"></h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2020-10-24
+                        </span>
+                        
+                            <span id="/2020/10/24/交叉验证，网格搜索/" class="leancloud_visitors" data-flag-title="">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/10/24/交叉验证，网格搜索/"></span>
+                        </span>  
+                    </p>                 
+                </div>
+            </div>
+        </div>
+        <canvas id="articleHeaderCanvas"></canvas>
+    </div>
+</div>
+    <div id="container">
+    <div id="content">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h1 id="1-10-交叉验证，网格搜索"><a href="#1-10-交叉验证，网格搜索" class="headerlink" title="1.10 交叉验证，网格搜索"></a>1.10 交叉验证，网格搜索</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ul>
+<li>目标<ul>
+<li>知道交叉验证、网格搜索的概念</li>
+<li>会使用交叉验证、网格搜索优化训练模型</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-什么是交叉验证-cross-validation"><a href="#1-什么是交叉验证-cross-validation" class="headerlink" title="1 什么是交叉验证(cross validation)"></a>1 什么是交叉验证(cross validation)</h2><p>交叉验证：将拿到的训练数据，分为训练和验证集。以下图为例：将数据分成4份，其中一份作为验证集。然后经过4次(组)的测试，每次都更换不同的验证集。即得到4组模型的结果，取平均值作为最终结果。又称4折交叉验证。</p>
+<h3 id="1-1-分析"><a href="#1-1-分析" class="headerlink" title="1.1 分析"></a>1.1 分析</h3><p>我们之前知道数据分为训练集和测试集，但是<strong>为了让从训练得到模型结果更加准确。</strong>做以下处理</p>
+<ul>
+<li><p>训练集：训练集+验证集</p>
+</li>
+<li><p>测试集：测试集</p>
+<p><img src="G:\数据分析师资料\机器学习讲义\机器学习讲义\机器学习（算法篇）\K-近邻算法\images\交叉验证过程.png" alt="交叉验证过程"></p>
+</li>
+</ul>
+<h3 id="为什么需要交叉验证"><a href="#为什么需要交叉验证" class="headerlink" title="为什么需要交叉验证"></a>为什么需要交叉验证</h3><p>交叉验证目的：<strong>为了让被评估的模型更加准确可信</strong></p>
+<h5 id="问题：这个只是让被评估的模型更加准确可信，那么怎么选择或者调优参数呢？"><a href="#问题：这个只是让被评估的模型更加准确可信，那么怎么选择或者调优参数呢？" class="headerlink" title="问题：这个只是让被评估的模型更加准确可信，那么怎么选择或者调优参数呢？"></a><strong>问题：这个只是让被评估的模型更加准确可信，那么怎么选择或者调优参数呢？</strong></h5><h2 id="2-什么是网格搜索-Grid-Search"><a href="#2-什么是网格搜索-Grid-Search" class="headerlink" title="2 什么是网格搜索(Grid Search)"></a>2 什么是网格搜索(Grid Search)</h2><p>通常情况下，<strong>有很多参数是需要手动指定的（如k-近邻算法中的K值），这种叫超参数</strong>。但是手动过程繁杂，所以需要对模型预设几种超参数组合。<strong>每组超参数都采用交叉验证来进行评估。最后选出最优参数组合建立模型。</strong></p>
+<h2 id="交叉验证，网格搜索（模型选择与调优）API："><a href="#交叉验证，网格搜索（模型选择与调优）API：" class="headerlink" title="交叉验证，网格搜索（模型选择与调优）API："></a><img src="G:\数据分析师资料\机器学习讲义\机器学习讲义\机器学习（算法篇）\K-近邻算法\images\超参数.png" alt="超参数">交叉验证，网格搜索（模型选择与调优）API：</h2><ul>
+<li>sklearn.model_selection.GridSearchCV(estimator, param_grid=None,cv=None)<ul>
+<li>对估计器的指定参数值进行详尽搜索</li>
+<li>estimator：估计器对象</li>
+<li>param_grid：估计器参数(dict){“n_neighbors”:[1,3,5]}</li>
+<li>cv：指定几折交叉验证</li>
+<li>fit：输入训练数据</li>
+<li>score：准确率</li>
+<li>结果分析：<ul>
+<li>best<em>score__:在交叉验证中验证的最好结果</em></li>
+<li>best<em>estimator</em>：最好的参数模型</li>
+<li>cv<em>results</em>:每次交叉验证后的验证集准确率结果和训练集准确率结果</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-鸢尾花案例增加K值调优"><a href="#4-鸢尾花案例增加K值调优" class="headerlink" title="4 鸢尾花案例增加K值调优"></a>4 鸢尾花案例增加K值调优</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.model.selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="comment"># 1.获取数据</span></span><br><span class="line">iris = load_iris()</span><br><span class="line"><span class="comment"># 2.训练集划分</span></span><br><span class="line">x_train,x_test,y_train,y_test = train_test_split(iris.data,iris.target,random_state = <span class="number">22</span>)</span><br><span class="line"><span class="comment"># 3.特征工程：标准换</span></span><br><span class="line">transfer = StandardScaler()</span><br><span class="line">x_train = transfer.fit_transform(x_train)</span><br><span class="line">x_test = transder.fit_transform(x_test)</span><br><span class="line"><span class="comment"># 4.建立模型</span></span><br><span class="line">estimator = KNeighborsClassifier()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.模型选择与调优---网格搜索和交叉验证</span></span><br><span class="line"><span class="comment"># 准备要调的参数</span></span><br><span class="line">param_dict = &#123;<span class="string">&quot;n_neighbors&quot;</span>:[<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>]&#125;</span><br><span class="line">estimator = GridSearchCV(estimator,param_grid = param_dict,cv=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 6.训练模型</span></span><br><span class="line">estimator.fit(x_train,x_test)</span><br><span class="line"><span class="comment"># 7.模型打分</span></span><br><span class="line">y_predict = estimator.predict(x_test)</span><br><span class="line">print(<span class="string">&#x27;比对预测结果和真实值:\n&#x27;</span>:,y_predict == y_test)</span><br><span class="line">score = estimator.score(x_test,y_test)</span><br><span class="line">print(<span class="string">&#x27;直接计算准确率:\n&#x27;</span>,score)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 交叉验证结果和未交叉验证结果评估</span></span><br><span class="line">print(<span class="string">&quot;在交叉验证中验证的最好结果：\n&quot;</span>, estimator.best_score_)</span><br><span class="line">print(<span class="string">&quot;最好的参数模型：\n&quot;</span>, estimator.best_estimator_)</span><br><span class="line">print(<span class="string">&quot;每次交叉验证后的准确率结果：\n&quot;</span>, estimator.cv_results_)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最终结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">比对预测结果和真实值：</span><br><span class="line"> [ <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span> <span class="literal">False</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span></span><br><span class="line">  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span> <span class="literal">False</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span></span><br><span class="line">  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span>  <span class="literal">True</span></span><br><span class="line">  <span class="literal">True</span>  <span class="literal">True</span>]</span><br><span class="line">直接计算准确率：</span><br><span class="line"> <span class="number">0.947368421053</span></span><br><span class="line">在交叉验证中验证的最好结果：</span><br><span class="line"> <span class="number">0.973214285714</span></span><br><span class="line">最好的参数模型：</span><br><span class="line"> KNeighborsClassifier(algorithm=<span class="string">&#x27;auto&#x27;</span>, leaf_size=<span class="number">30</span>, metric=<span class="string">&#x27;minkowski&#x27;</span>,</span><br><span class="line">           metric_params=<span class="literal">None</span>, n_jobs=<span class="number">1</span>, n_neighbors=<span class="number">5</span>, p=<span class="number">2</span>,</span><br><span class="line">           weights=<span class="string">&#x27;uniform&#x27;</span>)</span><br><span class="line">每次交叉验证后的准确率结果：</span><br><span class="line"> &#123;<span class="string">&#x27;mean_fit_time&#x27;</span>: array([ <span class="number">0.00114751</span>,  <span class="number">0.00027037</span>,  <span class="number">0.00024462</span>]), <span class="string">&#x27;std_fit_time&#x27;</span>: array([  <span class="number">1.13901511e-03</span>,   <span class="number">1.25300249e-05</span>,   <span class="number">1.11011951e-05</span>]), <span class="string">&#x27;mean_score_time&#x27;</span>: array([ <span class="number">0.00085751</span>,  <span class="number">0.00048693</span>,  <span class="number">0.00045625</span>]), <span class="string">&#x27;std_score_time&#x27;</span>: array([  <span class="number">3.52785082e-04</span>,   <span class="number">2.87650037e-05</span>,   <span class="number">5.29673344e-06</span>]), <span class="string">&#x27;param_n_neighbors&#x27;</span>: masked_array(data = [<span class="number">1</span> <span class="number">3</span> <span class="number">5</span>],</span><br><span class="line">             mask = [<span class="literal">False</span> <span class="literal">False</span> <span class="literal">False</span>],</span><br><span class="line">       fill_value = ?)</span><br><span class="line">, <span class="string">&#x27;params&#x27;</span>: [&#123;<span class="string">&#x27;n_neighbors&#x27;</span>: <span class="number">1</span>&#125;, &#123;<span class="string">&#x27;n_neighbors&#x27;</span>: <span class="number">3</span>&#125;, &#123;<span class="string">&#x27;n_neighbors&#x27;</span>: <span class="number">5</span>&#125;], <span class="string">&#x27;split0_test_score&#x27;</span>: array([ <span class="number">0.97368421</span>,  <span class="number">0.97368421</span>,  <span class="number">0.97368421</span>]), <span class="string">&#x27;split1_test_score&#x27;</span>: array([ <span class="number">0.97297297</span>,  <span class="number">0.97297297</span>,  <span class="number">0.97297297</span>]), <span class="string">&#x27;split2_test_score&#x27;</span>: array([ <span class="number">0.94594595</span>,  <span class="number">0.89189189</span>,  <span class="number">0.97297297</span>]), <span class="string">&#x27;mean_test_score&#x27;</span>: array([ <span class="number">0.96428571</span>,  <span class="number">0.94642857</span>,  <span class="number">0.97321429</span>]), <span class="string">&#x27;std_test_score&#x27;</span>: array([ <span class="number">0.01288472</span>,  <span class="number">0.03830641</span>,  <span class="number">0.00033675</span>]), <span class="string">&#x27;rank_test_score&#x27;</span>: array([<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>], dtype=int32), <span class="string">&#x27;split0_train_score&#x27;</span>: array([ <span class="number">1.</span>        ,  <span class="number">0.95945946</span>,  <span class="number">0.97297297</span>]), <span class="string">&#x27;split1_train_score&#x27;</span>: array([ <span class="number">1.</span>        ,  <span class="number">0.96</span>      ,  <span class="number">0.97333333</span>]), <span class="string">&#x27;split2_train_score&#x27;</span>: array([ <span class="number">1.</span>  ,  <span class="number">0.96</span>,  <span class="number">0.96</span>]), <span class="string">&#x27;mean_train_score&#x27;</span>: array([ <span class="number">1.</span>        ,  <span class="number">0.95981982</span>,  <span class="number">0.96876877</span>]), <span class="string">&#x27;std_train_score&#x27;</span>: array([ <span class="number">0.</span>        ,  <span class="number">0.00025481</span>,  <span class="number">0.0062022</span> ])&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><ul>
+<li>交叉验证【知道】<ul>
+<li>定义：<ul>
+<li>将拿到的训练数据，分为训练和验证集</li>
+<li>*折交叉验证</li>
+</ul>
+</li>
+<li>分割方式：<ul>
+<li>训练集：训练集+验证集</li>
+<li>测试集：测试集</li>
+</ul>
+</li>
+<li>为什么需要交叉验证<ul>
+<li>为了让被评估的模型更加准确可信</li>
+<li>注意：交叉验证不能提高模型的准确率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网格搜索【知道】<ul>
+<li>超参数:<ul>
+<li>sklearn中,需要手动指定的参数,叫做超参数</li>
+</ul>
+</li>
+<li>网格搜索就是把这些超参数的值,通过字典的形式传递进去,然后进行选择最优值</li>
+</ul>
+</li>
+<li>api【知道】<ul>
+<li>sklearn.model_selection.GridSearchCV(estimator, param_grid=None,cv=None)<ul>
+<li>estimator – 选择了哪个训练模型</li>
+<li>param_grid – 需要传递的超参数</li>
+<li>cv – 几折交叉验证</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/博客头像.jpg" alt="Suhayl">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Suhayl
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2020/10/24/%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%EF%BC%8C%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2/" target="_blank"></a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+        <div class="article-prev-next">
+            
+                <a href="/2020/10/24/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B-%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86/" class="prev-prefix">« </a> 上一篇：    <a href="/2020/10/24/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B-%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86/" title="发布于 2020-10-24 12:41">特征工程---特征预处理</a>
+                <br>
+            
+            
+                <a href="/2020/10/22/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" class="next-prefix">» </a> 下一篇：    <a href="/2020/10/22/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" title="发布于 2020-10-22 12:10">sql知识汇总</a>
+            
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
+</div>
+
+    </div>
+</div>
+    <div id="footer"></div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar"></div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span></span></div>        
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul></ul> 
+            </div> 
+            <div class="menu-link"></div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/APlayer.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/APlayer.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js"></script>
+    <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    <div class="wrap-right"></div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : 'Suhayl-Lee',
+        GitHubRepositories : 'Suhayl-Lee.github.io',
+
+        BlogUser      : 'Suhayl',
+        BlogAvatar    : 'https://gitee.com/Suhayl/pics-bed/raw/master/img/博客头像.jpg',
+        BlogStartDate : '2020-09-19',
+
+        WebsiteTitleBlur         : '(◍´꒳`◍) Hi, Live For Code',
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : '(*´∇｀*) 欢迎回来!',
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/logo.png',
+
+        ProgressBar: {
+            id       : 'topProgressBar',
+            color    : '#77B6FF',
+            height   : '2px',
+            duration : 0.2
+        },
+
+        Loading: {
+            rebound: {
+                tension  : 16,
+                friction : 5
+            },
+            spinner: {
+                id     : 'spinner',
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : '#F0F0F0',
+                    stroke     : '#272633',
+                    base       : '',
+                    child      : '#272633'
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
+
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : 'rgba(255, 255, 255, .2)',
+            clearOffset : 0.3
+        },
+
+        ArticleHeaderAnimationRendered : false,
+        ArticleHeaderAnimation         : {
+            triW                  : 14,
+            triH                  : 20,
+            neighbours            : [
+                
+                    'side',
+                
+                    'top',
+                
+                    'bottom',
+                
+            ],
+            speedTrailAppear      : 0.1,
+            speedTrailDisappear   : 0.1,
+            speedTriOpen          : 1,
+            trailMaxLength        : 30,
+            trailIntervalCreation : 100,
+            delayBeforeDisappear  : 2,
+            colors                : [
+                
+                    '#96EDA6',
+                
+                    '#5BC6A9',
+                
+                    '#38668C',
+                
+                    '#374D84',
+                
+                    '#BED5CB',
+                
+                    '#62ADC6',
+                
+                    '#8EE5DE',
+                
+                    '#304E7B',
+                
+            ]
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : '60%',
+            colorBrightness  : '50%',
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : 'random',
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpg',
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpeg',
+            
+        ],
+        HomeBannerText  : '',
+
+        ArticleHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/article.jpg',
+            
+        ],
+
+        OtherBannerText  : '',
+
+        MenuList : [
+            
+                {
+                    name   : '首页',
+                    href   : '/',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '标签',
+                    href   : '/tag',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '分类',
+                    href   : '/category',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '归档',
+                    href   : '/archive',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '赞赏',
+                    href   : '/donate',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '关于',
+                    href   : '/about',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '订阅',
+                    href   : '/atom.xml',    
+                    target : '_blank',
+                    class  : ''
+                },
+            
+                {
+                    name   : '搜索',
+                    href   : '',    
+                    target : '',
+                    class  : 'search'
+                },
+            
+                {
+                    name   : '留言板',
+                    href   : '/comment',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '友情链接',
+                    href   : '/friend',    
+                    target : '',
+                    class  : ''
+                },
+            
+        ],
+        MenuLink : [
+            
+                {
+                    icon : 'icon-weibo', 
+                    url  : ''
+                },
+            
+                {
+                    icon : 'icon-wechat', 
+                    url  : 'https://gitee.com/Suhayl/pics-bed/raw/master/img/wechat.jpg'
+                },
+            
+                {
+                    icon : 'icon-qq', 
+                    url  : 'https://gitee.com/Suhayl/pics-bed/raw/master/img/QQ.jpg'
+                },
+            
+                {
+                    icon : 'icon-github', 
+                    url  : 'https://github.com/Suhayl-Lee'
+                },
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : {
+            icon    : 'like-fill',
+            left    : '人生若只如初见',
+            right   : '何事秋风悲画扇'
+        },
+        ThemeInfo   : true,
+
+        ConsoleList : [
+            
+                [
+                    
+                        'Based on cnblogs theme SimpleMemory.',
+                    
+                        '',
+                    
+                ],
+            
+                [
+                    
+                        'SimpleMemory Author:',
+                    
+                        'BNDong',
+                    
+                ],
+            
+                [
+                    
+                        'Theme:',
+                    
+                        'LiveForCode',
+                    
+                ],
+            
+        ],
+
+        FontIconExtend : "",
+
+        Donate : {
+            paypal  : '',
+            bitcoin : '',
+            alipay  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/alipay.png',
+            wechat  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/wechat.png'
+        },
+
+        Code : {
+            style : 'normal'
+        },  
+
+        Search : {
+            applicationID : '010C3EANT8',
+            apiKey        : 'c7abab9f11b79102b9aff7fe6d41447d',
+            indexName     : 'Notes',
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : '搜索',
+                empty       : '未发现与 「${query}」 相关的内容',
+                stats       : '${hits} 条相关条目，使用了 ${time} 毫秒',
+            }
+        }, 
+
+        Valine : {
+            switch         : true,
+            el             : '.comments-content',
+            appId          : 'srhKtvWPQTWYKh3qX8G8M7v0-gzGzoHsz',
+            appKey         : '8uVSP1q6UlALVC5igYfIfv2h',
+            placeholder    : '你是我一生只会遇见一次的惊喜...',
+            avatar         : 'mm',
+            meta           : 'nick,mail,link',
+            requiredFields : 'nick,mail',
+            pageSize       : 5,
+            lang           : 'zh-cn',
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : '.toc',
+            contentSelector       : '.article-body',
+            headingSelector       : 'h1, h2, h3, h4, h5',
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : '.toc',
+            positionFixedClass    : 'toc-fixed',
+            fixedSidebarOffset    : '',
+        },
+
+        Require : {
+            baseUrl     : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/",
+            waitSeconds : 100
+        },
+
+        Meting : {
+            id       : "3778678", 
+            lrcshow  : false, 
+            server   : "netease", 
+            type     : "playlist", 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : "all", 
+            order    : "random", 
+            preload  : "auto", 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        LazyLoad : {
+            default : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/lazyload.svg"
+        },
+  
+
+        Style : {
+            aplayer          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/APlayer.css",
+            archive          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/archive.css",
+            donate           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/donate.css",
+            fancybox         : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/jquery.fancybox.css",
+            footer           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/footer.css",
+            iconfont         : "https://at.alicdn.com/t/font_1546312_l3yohatebw.css",
+            index            : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css",
+            menuBubble       : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/menu-bubble.css",
+            page             : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/page.css",
+            post             : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css",
+            search           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css",
+            tocbot           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/tocbot.css",
+            normal           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css",
+            night            : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/night.css",
+            clipboard        : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/clipboard.css"
+        },
+
+        Script: {
+            aplayer          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/APlayer.min.js",
+            config           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.config.js",
+            index            : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js",
+            instantSearch    : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js",
+            jQuery           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js",
+            loading          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/loading.js",
+            meting           : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js",
+            iscroll          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js",
+            require          : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.min.js"
+        },
+
+        Font: {
+            LongCang   : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css",
+            Monda      : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css",
+            NotoSansSC : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css",
+            Playball   : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css",
+            PTMono     : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css",
+            RobotoSlab : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css",
+            Rosario    : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css",
+            UbuntuMono : "https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css"
+        },
+
+        Suffix : {
+            about : '简单地活着, 肆意又精彩.'
+        },
+            
+        Theme : {
+            url  : 'https://github.com/first19326/Hexo-LiveForCode',
+            name : 'Hexo - Live For Code'
+        }  
+    };
+</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js"></script>
+</body>
+</html>
