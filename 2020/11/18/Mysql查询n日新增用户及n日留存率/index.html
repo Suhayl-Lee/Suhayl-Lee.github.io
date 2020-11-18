@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>归档</title>
+    <title>Mysql查询n日新增用户及n日留存率</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -17,76 +17,111 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.2.0"></head>
 <body>
     <a id="cover"></a>
     <div id="header">
-    <div class="header" >
+    <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-title"></h1>
-                <h2 class="header-description" id="hitokoto"></h2>
-                <h3 class="header-info" id="hitokotoAuthor"></h3>
-                <!--
-                <h1 class="header-subtitle"></h1>
-                <p class="header-subinfo"></p>
-                -->
+                <h1 class="header-subtitle">Mysql查询n日新增用户及n日留存率</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2020-11-18
+                        </span>
+                        
+                            <span id="/2020/11/18/Mysql查询n日新增用户及n日留存率/" class="leancloud_visitors" data-flag-title="Mysql查询n日新增用户及n日留存率">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/11/18/Mysql查询n日新增用户及n日留存率/"></span>
+                        </span>  
+                    </p>                 
+                </div>
             </div>
         </div>
-        <a class="scroll-down" href="javascript:;" target="_self" data-offset="-45">
-            <span class="hidden">Scroll Down</span>
-            <i class="scroll-down-icon iconfont icon-return"></i>
-        </a>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
 </div>
     <div id="container">
     <div id="content">
-          
-    <div class="articles-year">
-        <h2>2020</h2>
-        <ul class="list">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h3 id="学习目的："><a href="#学习目的：" class="headerlink" title="学习目的："></a>学习目的：</h3><p>在数据分析工作中，尤其是互联网行业，对于新增用户数，以及留存率非常看重，作为数据分析师，我们需要快速的从数仓或者数据库中取出这些数据，指导并反馈给业务部门。所以高效，可行的sql语句就很关键，同时也是面试中经常会问的问题</p>
+<h3 id="五个问题"><a href="#五个问题" class="headerlink" title="五个问题"></a>五个问题</h3><ol>
+<li>计算每日新增客户———新增用户数</li>
+<li>计算某日的客户在第n日再次出现的概率——用户n日留存率</li>
+<li>计算某日的客户在某个时间段内再次出现的概率——-用户n日内留存率</li>
+<li>计算某日新增的用户在第n日再次出现的概率——-新增用户n日留存率</li>
+<li>计算某日新增的用户在某个时间段内再次出现的概率——–新用户n日内留存率<h4 id="新增用户数"><a href="#新增用户数" class="headerlink" title="新增用户数"></a>新增用户数</h4>用户数据表：<br><img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/%E7%94%A8%E6%88%B7%E8%A1%A8.png"><br>获取每日新增用户数 代码如下：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 每日新增用户</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">DATE_FORMAT</span>(<span class="built_in">date</span>,<span class="string">&#x27;%Y-%m-%d&#x27;</span>),<span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">case</span> rank1 <span class="keyword">WHEN</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="keyword">id</span> <span class="keyword">ELSE</span> <span class="literal">NULL</span> <span class="keyword">END</span>) <span class="keyword">as</span> 新增用户</span><br><span class="line"><span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,<span class="built_in">date</span>,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">PARTITION</span> <span class="keyword">by</span> <span class="keyword">id</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="built_in">date</span>) <span class="keyword">as</span> rank1</span><br><span class="line"><span class="keyword">from</span> <span class="string">`用户数据`</span>)p</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="built_in">DATE</span>(<span class="built_in">date</span>)</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/%E6%97%A5%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7.png"></p>
+<h4 id="用户n日留存-留存率"><a href="#用户n日留存-留存率" class="headerlink" title="用户n日留存/留存率"></a>用户n日留存/留存率</h4><p>获取日活跃用户/用户n日留存/留存率 代码如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 日活跃用户/用户n日留存/留存率</span></span><br><span class="line"><span class="keyword">SELECT</span> *,</span><br><span class="line"><span class="keyword">CONCAT</span>(<span class="keyword">ROUND</span>(<span class="number">100</span>*次日留存用户数/日活跃用户数,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>) <span class="keyword">as</span> 次日留存率,</span><br><span class="line"><span class="keyword">CONCAT</span>(<span class="keyword">ROUND</span>(<span class="number">100</span>*三日留存用户数/日活跃用户数,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>) <span class="keyword">as</span> 三日留存率,</span><br><span class="line"><span class="keyword">CONCAT</span>(<span class="keyword">ROUND</span>(<span class="number">100</span>*七日留存用户数/日活跃用户数,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>) <span class="keyword">as</span> 七日留存率,</span><br><span class="line"><span class="keyword">CONCAT</span>(<span class="keyword">ROUND</span>(<span class="number">100</span>*三十日留存用户数/日活跃用户数,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>) <span class="keyword">as</span> 三十日留存率</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">DATE</span>(a.date) <span class="keyword">as</span> 日期,</span><br><span class="line"><span class="keyword">COUNT</span>(<span class="keyword">distinct</span> a.id) <span class="keyword">as</span> 日活跃用户数,</span><br><span class="line"><span class="keyword">COUNT</span>(<span class="keyword">distinct</span> b.id) <span class="keyword">as</span> 次日留存用户数,</span><br><span class="line"><span class="keyword">COUNT</span>(<span class="keyword">distinct</span> c.id) <span class="keyword">as</span> 三日留存用户数,</span><br><span class="line"><span class="keyword">COUNT</span>(<span class="keyword">distinct</span> d.id) <span class="keyword">as</span> 七日留存用户数,</span><br><span class="line"><span class="keyword">COUNT</span>(<span class="keyword">distinct</span> e.id) <span class="keyword">as</span> 三十日留存用户数</span><br><span class="line"><span class="keyword">from</span> <span class="string">`用户数据`</span> <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`用户数据`</span> <span class="keyword">as</span> b </span><br><span class="line"><span class="keyword">on</span> a.id = b.id </span><br><span class="line"><span class="keyword">and</span> <span class="built_in">DATE</span>(b.date) = <span class="built_in">DATE</span>(a.date) +<span class="number">1</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`用户数据`</span> <span class="keyword">as</span> c </span><br><span class="line"><span class="keyword">on</span> a.id = c.id</span><br><span class="line"><span class="keyword">and</span> <span class="built_in">DATE</span>(c.date) = <span class="built_in">DATE</span>(a.date)+<span class="number">3</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`用户数据`</span> <span class="keyword">as</span> d </span><br><span class="line"><span class="keyword">on</span> a.id = d.id </span><br><span class="line"><span class="keyword">and</span> <span class="built_in">DATE</span>(d.date) = <span class="built_in">DATE</span>(a.date)+<span class="number">7</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`用户数据`</span> <span class="keyword">as</span> e </span><br><span class="line"><span class="keyword">on</span> a.id = e.id </span><br><span class="line"><span class="keyword">and</span> <span class="built_in">DATE</span>(e.date) = <span class="built_in">DATE</span>(a.date) + <span class="number">30</span></span><br><span class="line"><span class="keyword">where</span> <span class="built_in">DATE</span>(a.date) <span class="keyword">between</span> <span class="string">&quot;2020/11/02&quot;</span> <span class="keyword">and</span> <span class="string">&quot;2020/11/22&quot;</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="built_in">DATE</span>(a.date))p;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/%E7%95%99%E5%AD%98%E4%BB%A5%E5%8F%8A%E7%95%99%E5%AD%98%E7%8E%87.png"></p>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/博客头像.jpg" alt="Suhayl">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Suhayl
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2020/11/18/Mysql%E6%9F%A5%E8%AF%A2n%E6%97%A5%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%8F%8An%E6%97%A5%E7%95%99%E5%AD%98%E7%8E%87/" target="_blank">Mysql查询n日新增用户及n日留存率</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+                
+            </div>
+        
+        <div class="article-prev-next">
             
-                <li>
-                    <span class="date">2020/11/18</span>
-                    <a href="/2020/11/18/Mysql%E6%9F%A5%E8%AF%A2n%E6%97%A5%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%8F%8An%E6%97%A5%E7%95%99%E5%AD%98%E7%8E%87/" title="Mysql查询n日新增用户及n日留存率">    
-                        <span>Mysql查询n日新增用户及n日留存率</span>
-                    </a>
-                </li>
             
-                <li>
-                    <span class="date">2020/11/18</span>
-                    <a href="/2020/11/18/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%8C%87%E6%A0%87/" title="数据分析中的业务指标">    
-                        <span>数据分析中的业务指标</span>
-                    </a>
-                </li>
+                <a href="/2020/11/18/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%8C%87%E6%A0%87/" class="next-prefix">» </a> 下一篇：    <a href="/2020/11/18/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%8C%87%E6%A0%87/" title="发布于 2020-11-18 02:41">数据分析中的业务指标</a>
             
-                <li>
-                    <span class="date">2020/10/24</span>
-                    <a href="/2020/10/24/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B-%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86/" title="特征工程---特征预处理">    
-                        <span>特征工程---特征预处理</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <span class="date">2020/10/22</span>
-                    <a href="/2020/10/22/sql%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/" title="sql知识汇总">    
-                        <span>sql知识汇总</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <span class="date">2020/09/22</span>
-                    <a href="/2020/09/22/MarkDown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="MarkDown基本语法">    
-                        <span>MarkDown基本语法</span>
-                    </a>
-                </li>
-            
-        </ul>
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
     </div>
 
+</div>
 
     </div>
 </div>
