@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>标签 - 机器学习</title>
+    <title>聚类算法之KMeans</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -17,86 +17,118 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.2.0"></head>
 <body>
     <a id="cover"></a>
     <div id="header">
-    <div class="header" >
+    <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-title"></h1>
-                <h2 class="header-description" id="hitokoto"></h2>
-                <h3 class="header-info" id="hitokotoAuthor"></h3>
-                <!--
-                <h1 class="header-subtitle"></h1>
-                <p class="header-subinfo"></p>
-                -->
+                <h1 class="header-subtitle">聚类算法之KMeans</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2020-11-19
+                        </span>
+                        
+                            <span id="/2020/11/19/聚类算法之KMeans/" class="leancloud_visitors" data-flag-title="聚类算法之KMeans">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/11/19/聚类算法之KMeans/"></span>
+                        </span>  
+                    </p>                 
+                </div>
             </div>
         </div>
-        <a class="scroll-down" href="javascript:;" target="_self" data-offset="-45">
-            <span class="hidden">Scroll Down</span>
-            <i class="scroll-down-icon iconfont icon-return"></i>
-        </a>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
 </div>
     <div id="container">
     <div id="content">
-        <div class="articles">
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2020/11/19/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E4%B9%8BKMeans/">聚类算法之KMeans</a>
-                
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h2 id="什么是聚类"><a href="#什么是聚类" class="headerlink" title="什么是聚类"></a>什么是聚类</h2><p>聚类的核心思想就是将具有相似特征的事物给”聚“在一起。</p>
+<img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/聚类.jpg" style="zoom: 80%;" />
+
+<h2 id="聚类和分类的区别？"><a href="#聚类和分类的区别？" class="headerlink" title="聚类和分类的区别？"></a>聚类和分类的区别？</h2><p>聚类的核心思想是将具有相似特征的事务聚在一起，也就是说聚类算法最终只能告诉我们哪些样本属于同一个类别，而不能告诉我们每个样本具体属于什么类别。所以聚类算法不需要标签</p>
+<h2 id="KMeans算法"><a href="#KMeans算法" class="headerlink" title="KMeans算法"></a>KMeans算法</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><ol>
+<li>首先选择k个样本点作为K个簇的初始簇中心</li>
+<li>然后计算每个样本点与这K个簇中心的相似度大小，并将该样本划分到与之相似度最大的簇中心对应的簇中</li>
+<li>根据现有的簇中样本，重新计算每个簇的簇中心</li>
+<li>循环迭代2，3直到目标函数收敛，即簇中心不在发生变化<h3 id="KMeans缺点"><a href="#KMeans缺点" class="headerlink" title="KMeans缺点"></a>KMeans缺点</h3>只能处理球型的簇，也就是聚程实心的团，但是对于环形，不规则型就不能用了<br>如图这种的就需要使用DBSCAN算法</li>
+</ol>
+<p><img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/%E7%8E%AF%E7%8A%B6.png"></p>
+<h2 id="如何确定K值？"><a href="#如何确定K值？" class="headerlink" title="如何确定K值？"></a>如何确定K值？</h2><h3 id="手肘法"><a href="#手肘法" class="headerlink" title="手肘法"></a>手肘法</h3><h4 id="什么是手肘法则？"><a href="#什么是手肘法则？" class="headerlink" title="什么是手肘法则？"></a>什么是手肘法则？</h4><p>核心指标：SSE(误差平方和)<br>随着聚类数K的增大，样本划分会更加精细，每个簇的聚合成都会逐渐提高，那么误差平方和SSE会逐渐变小<br>当k小于真实聚类数的时候，由于k的增大会大幅度增加每个簇的聚合程度，故SSE 下降幅度会很大，而当k到达真实聚类数时候，再增加k所得到的聚合程度汇报迅速变小，所以SSE下降会骤然减小，然后平缓，而这个肘部对应的k值就是数据 的真实聚类数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">df_features = pd.read_csv(<span class="string">r&#x27;C:\预处理后数据.csv&#x27;</span>,encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line">SSE = []</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">estimator = KMeans(n_cluster = k)</span><br><span class="line">estimator.fit(df_feature[[<span class="string">&#x27;R&#x27;</span>,<span class="string">&#x27;F&#x27;</span>,<span class="string">&#x27;M&#x27;</span>]])</span><br><span class="line">SSE.append(estimator.inertia_)</span><br><span class="line">X = range(<span class="number">1</span>,<span class="number">9</span>)</span><br><span class="line">plt.xlable(<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line">plt.ylable(<span class="string">&#x27;sse&#x27;</span>)</span><br><span class="line">plt.plot(X,SSE,<span class="string">&#x27;o‐&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/手肘法.png" style="zoom: 67%;" />
+
+<h3 id="通过轮廓系数来确定"><a href="#通过轮廓系数来确定" class="headerlink" title="通过轮廓系数来确定"></a>通过轮廓系数来确定</h3><h4 id="什么是轮廓系数？"><a href="#什么是轮廓系数？" class="headerlink" title="什么是轮廓系数？"></a>什么是轮廓系数？</h4><p>轮廓系数表示不同样本点的相似程度，越接近1说明聚类越合理那么选择轮廓系数较大时候对应的k值，这个k值就是K</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> silhouette_score</span><br></pre></td></tr></table></figure>
+
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://gitee.com/Suhayl/pics-bed/raw/master/img/博客头像.jpg" alt="Suhayl">
             </div>
-            <div class="article-abstract">
-                
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Suhayl
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2020/11/19/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E4%B9%8BKMeans/" target="_blank">聚类算法之KMeans</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
             </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2020-11-19
-                </span>
-                
-                    <span id="/2020/11/19/聚类算法之KMeans/" class="leancloud_visitors" data-flag-title="聚类算法之KMeans">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/11/19/聚类算法之KMeans/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+            <div style="clear: both;"></div>
         </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2020/10/24/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B-%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86/">特征工程---特征预处理</a>
+    </div>
+    <div class="article-footer">
+        
+            <div class="category">
+                分类：
+                
+                    <a href="/categories/2020%E5%B9%B411%E6%9C%88/">2020年11月</a>
                 
             </div>
-            <div class="article-abstract">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                 
             </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2020-10-24
-                </span>
-                
-                    <span id="/2020/10/24/特征工程-特征预处理/" class="leancloud_visitors" data-flag-title="特征工程---特征预处理">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/10/24/特征工程-特征预处理/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+        
+        <div class="article-prev-next">
+            
+            
+                <a href="/2020/11/18/Mysql%E6%9F%A5%E8%AF%A2n%E6%97%A5%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%8F%8An%E6%97%A5%E7%95%99%E5%AD%98%E7%8E%87/" class="next-prefix">» </a> 下一篇：    <a href="/2020/11/18/Mysql%E6%9F%A5%E8%AF%A2n%E6%97%A5%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%8F%8An%E6%97%A5%E7%95%99%E5%AD%98%E7%8E%87/" title="发布于 2020-11-18 06:57">Mysql查询n日新增用户及n日留存率</a>
+            
         </div>
+    </div>
     
-    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
 </div>
 
     </div>
